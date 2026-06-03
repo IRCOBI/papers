@@ -1,13 +1,29 @@
-# phdcc-papers
+# papers
 
 [![CircleCI](https://circleci.com/gh/phdccltd/phdcc-papers.svg?style=shield)](https://circleci.com/gh/phdccltd/phdcc-papers)
 [![Coverage Status](https://coveralls.io/repos/github/phdccltd/phdcc-papers/badge.svg?branch=main)](https://coveralls.io/github/phdccltd/phdcc-papers?branch=main)
 <a href="https://sonarcloud.io/dashboard?id=phdccltd_phdcc-papers"><img src="https://sonarcloud.io/images/project_badges/sonarcloud-white.svg" height="20" alt="SonarCloud" ></a>
 
-**Papers**: [PHDCC journal/conference abstract and paper submission and review system](https://www.phdcc.com/papers/).
+**Papers**: frontend for the IRCOBI abstract and paper submission and review system. Used before the conference by authors and reviewers.
 
-To be used in conjuction with [phdcc-papers-api](https://github.com/phdccltd/phdcc-papers-api).
-Please read the full set up instructions there.
+To be used in conjunction with [papers-api](https://github.com/IRCOBI/papers-api).
+
+## IRCOBI system overview
+
+| Repo | Role | URL |
+|------|------|-----|
+| **papers** | **Papers submission frontend** | **conference.ircobi.org** |
+| [papers-api](https://github.com/IRCOBI/papers-api) | Papers submission backend API | — |
+| [conference](https://github.com/IRCOBI/conference) | Conference admin console + attendee API | confapp.ircobi.org |
+| [conference-app](https://github.com/IRCOBI/conference-app) | Attendee mobile app (iOS/Android) | — |
+
+## Cloud infrastructure
+
+| Resource | ID / Name |
+|----------|-----------|
+| GCP project ID | `ircobi-papers-api` (display: "IRCOBI Papers & Conference") |
+| Firebase site | `ircobi-papers-api` → https://ircobi-papers-api.web.app |
+| Custom domain | https://conference.ircobi.org |
 
 ## Runtime environment
 
