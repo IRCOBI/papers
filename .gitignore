@@ -2,11 +2,16 @@ node_modules
 .nuxt
 .output
 dist
-.env
-.env.coverage
-.env.clienttest
+.idea
+.env*
+!.env.example
 cypress.env.json
 coverage
 .nyc_output
 .claude
 save
+
+# Firebase
+.firebase
+firebase-debug.log
+.firebase.json.backup

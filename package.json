@@ -19,10 +19,11 @@
     "test": "npx cypress open",
     "waitonapi": "wait-on http://localhost:9000/ && echo 'READY'",
     "waitonclient": "wait-on http://localhost:3000/ && echo 'READY'",
-    "runner": "cross-env PORT=n node .output/server/index.mjs"
+    "runner": "cross-env PORT=n node .output/server/index.mjs",
+    "deploy:firebase": "firebase deploy --only hosting"
   },
   "engines": {
-    "node": "^20.0.0"
+    "node": "^22.0.0"
   },
   "comments": {
     "0": "engines/node specifies azure static web app runtime used",
@@ -71,6 +72,7 @@
     "eslint-plugin-n": "^16.0.1",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-vue": "^9.15.1",
+    "firebase-tools": "^13.0.0",
     "nuxt": "^4.0.3",
     "prettier": "^3.0.0",
     "sass": "^1.74.1",

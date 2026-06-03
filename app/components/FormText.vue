@@ -9,7 +9,7 @@
         <div v-else>{{ help }}</div>
       </div>
       <b-form-textarea :id="sid" max-rows="100" v-model="modelValue2" style="overflow-y: auto;" :placeholder="reqd ? 'Required' : ''"
-        :data-cy="'formtext-' + sid" @update="update">
+        :data-cy="'formtext-' + sid">
       </b-form-textarea>
       <div class="alert-warning">{{ message }}</div>
     </b-form-group>
@@ -51,6 +51,11 @@ onMounted(() => {
   modelValue2.value = props.modelValue
 })
 
+// Watch for changes and emit to parent
+watch(modelValue2, (newValue) => {
+  emit('update:modelValue', newValue)
+})
+
 const labelreqd = computed(() => {
   return props.reqd ? props.label + ' *' : props.label
 })
@@ -59,8 +64,4 @@ const modelValueParas = computed(() => {
   if (props.modelValue == null) return []
   return props.modelValue.split('\n')
 })
-
-function update(event: any) {
-  emit('update:modelValue', modelValue2.value)
-}
 </script>

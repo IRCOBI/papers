@@ -51,41 +51,41 @@
         <b-form @submit="onSubmit" @submit.stop.prevent>
           <div v-if="formtype == 'addsubmit'" class="mt-2 ps-0 container">
             <FormInput type="text" :edit="editable" label="Paper title" sid="field0" help="" :class="fieldclass(submittitle)"
-              :reqd="submittitle.required" :message="submittitle.message" v-on:input="changed(submittitle)" v-model="submittitle.val" />
+              :reqd="submittitle.required" :message="submittitle.message" @update:modelValue="changed(submittitle)" v-model="submittitle.val" />
           </div>
           <b-container v-for="(field, index) in entry.fields" :key="index" class="mt-2 ps-0">
             <div v-if="field.type == 'plain'">{{field.label}}</div>
             <div v-if="field.type == 'heading'" class="font-weight-bold">{{field.label}}</div>
             <FormInput v-if="field.type == 'email'" type="email" :edit="editable" :label="field.label" :sid="'field' + field.id" :help="field.help"
-              :helplink="field.helplink" :class="fieldclass(field)" :reqd="field.required" :message="field.message" v-on:input="changed(field)"
+              :helplink="field.helplink" :class="fieldclass(field)" :reqd="field.required" :message="field.message" @update:modelValue="changed(field)"
               v-model="field.val.string" />
             <FormFile v-if="field.type.substring(0, 4) == 'file'" :edit="editable" :label="field.label" :sid="'field' + field.id" :help="field.help"
               :helplink="field.helplink" :class="fieldclass(field)" :reqd="field.required" :message="field.message"
               v-on:input="changedFile($event, field)" :allowedfiletypes="field.allowedfiletypes" :existingfile="field.val.file"
               :relpath="entry.id + '/' + field.val.id" />
             <FormLookup v-if="field.type == 'lookup'" :edit="editable" :label="field.label" :sid="'field' + field.id" :help="field.help"
-              :helplink="field.helplink" :class="fieldclass(field)" :reqd="field.required" :message="field.message" v-on:input="changed(field)"
+              :helplink="field.helplink" :class="fieldclass(field)" :reqd="field.required" :message="field.message" @update:modelValue="changed(field)"
               :publookupId="field.publookupId" v-model="field.val.integer" />
             <FormLookups v-if="field.type == 'lookups'" :edit="editable" :label="field.label" :sid="'field' + field.id" :help="field.help"
-              :helplink="field.helplink" :class="fieldclass(field)" :reqd="field.required" :message="field.message" v-on:input="changed(field)"
+              :helplink="field.helplink" :class="fieldclass(field)" :reqd="field.required" :message="field.message" @update:modelValue="changed(field)"
               :publookupId="field.publookupId" v-model="field.val.string" />
             <FormRoleLookups v-if="field.type == 'rolelookups'" :edit="editable" :label="field.label" :sid="'field' + field.id" :help="field.help"
               :helplink="field.helplink" :class="fieldclass(field)" :reqd="field.required" :message="field.message" v-on:input="changed(field)"
               :pubroleId="field.pubroleId" v-model="field.val.string" />
             <FormInput v-if="field.type == 'phone'" type="tel" :edit="editable" :label="field.label" :sid="'field' + field.id" :help="field.help"
-              :helplink="field.helplink" :class="fieldclass(field)" :reqd="field.required" :message="field.message" v-on:input="changed(field)"
+              :helplink="field.helplink" :class="fieldclass(field)" :reqd="field.required" :message="field.message" @update:modelValue="changed(field)"
               v-model="field.val.string" />
             <FormInput v-if="field.type == 'string'" type="text" :edit="editable" :label="field.label" :sid="'field' + field.id" :help="field.help"
-              :helplink="field.helplink" :class="fieldclass(field)" :reqd="field.required" :message="field.message" v-on:input="changed(field)"
+              :helplink="field.helplink" :class="fieldclass(field)" :reqd="field.required" :message="field.message" @update:modelValue="changed(field)"
               v-model="field.val.string" />
             <FormText v-if="field.type == 'text'" :edit="editable" :label="field.label" :sid="'field' + field.id" :help="field.help"
-              :helplink="field.helplink" :class="fieldclass(field)" :reqd="field.required" :message="field.message" v-on:input="changed(field)"
+              :helplink="field.helplink" :class="fieldclass(field)" :reqd="field.required" :message="field.message" @update:modelValue="changed(field)"
               v-model="field.val.text" />
             <FormYes v-if="field.type == 'yes'" :edit="editable" :label="field.label" :sid="'field' + field.id" :help="field.help"
-              :helplink="field.helplink" :class="fieldclass(field)" :reqd="field.required" :message="field.message" v-on:input="changed(field)"
+              :helplink="field.helplink" :class="fieldclass(field)" :reqd="field.required" :message="field.message" @update:modelValue="changed(field)"
               v-model="field.val.integer" />
             <FormYesNo v-if="field.type == 'yesno'" :edit="editable" :label="field.label" :sid="'field' + field.id" :help="field.help"
-              :helplink="field.helplink" :class="fieldclass(field)" :reqd="field.required" :message="field.message" v-on:input="changed(field)"
+              :helplink="field.helplink" :class="fieldclass(field)" :reqd="field.required" :message="field.message" @update:modelValue="changed(field)"
               v-model="field.val.integer" />
           </b-container>
           <b-container v-if="editable">

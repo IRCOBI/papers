@@ -88,6 +88,11 @@ export default defineNuxtConfig({
 
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
+    head: {
+      link: [
+        { rel: 'icon', type: 'image/png', href: '/ircobi-picto.png' }
+      ]
+    }
   },
 
   compatibilityDate: '2024-11-01',

@@ -23,3 +23,4 @@ Imported to Claude memory via @CLAUDE-architecture.md
 - **Testing**: Use data-cy attributes for test selectors
 - **Imports**: Group imports by external packages first, then internal
 - **Vue Components**: Follow Vue 3 Composition API patterns
+- you need to do nvm use 22.21.0
