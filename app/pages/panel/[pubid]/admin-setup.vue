@@ -18,12 +18,43 @@
         <b-button variant="outline-warning" @click="togglePubEnable(pub)">
           {{ pub.enabled ? 'DISABLE' : 'ENABLE' }}
         </b-button>
+        <b-button variant="outline-primary" @click="duplicatePub" class="ms-2">
+          Duplicate
+        </b-button>
         <b-button variant="outline-danger" @click="deletePub(pub)" class="float-end">
           DELETE
         </b-button>
       </div>
     </div>
 
+    <b-modal v-model="showDuplicateModal" id="bv-modal-dup-pub" title="Duplicate publication" centered>
+      <template #default>
+        <form @submit.stop.prevent>
+          <ul>
+            <li>
+              This will duplicate this publication, ie copy the set up but not the submissions.
+            </li>
+            <li>
+              You can choose whether or not to give the current publication users access to the new publication - and copy their roles across.
+              You will be an owner of the new publication either way.
+            </li>
+          </ul>
+          <b-form-group label="Name" label-for="pubname" label-cols-sm="2" :state="true">
+            <b-form-input id="pubname" v-model="pubname" placeholder="Required" required></b-form-input>
+          </b-form-group>
+          <b-form-group label="Users" label-for="pubdupusers" label-cols-sm="2" :state="true">
+            <b-form-checkbox id="pubdupusers" v-model="pubdupusers" class="mt-2">
+              Give users access and copy roles
+            </b-form-checkbox>
+          </b-form-group>
+        </form>
+        <div class="text-center bg-warning m-2" v-if="showdupwait">Please wait...</div>
+      </template>
+      <template #footer>
+        <b-button variant="outline-secondary" @click="showDuplicateModal = false"> Cancel </b-button>
+        <b-button variant="primary" @click="okDupPub"> OK </b-button>
+      </template>
+    </b-modal>
     <MessageBoxOK v-if="showMsgModal" />
     <ConfirmModal v-if="showConfirmModal" @confirm="confirmedOK" @cancel="cancelConfirm" />
   </div>
@@ -57,6 +88,10 @@ const usersStore = useUsersStore()
 const error = ref('')
 const message = ref('')
 const confirmpub = ref<any>(null)
+const showDuplicateModal = ref(false)
+const pubname = ref('')
+const pubdupusers = ref(true)
+const showdupwait = ref(false)
 
 onMounted(async () => { // Client only
   error.value = ''
@@ -119,7 +154,7 @@ async function confirmTogglePubEnable() {
 
 async function deletePub(pub: any) {
   confirmpub.value = pub
-  showConfirm(pub.name, 'Are you sure you want to delete this publication? CHECK THAT ALL TRACES REMOVED', confirmDeletePub, null, null, null, 'danger')
+  showConfirm(pub.name, 'Are you sure you want to delete this publication? Only a publication with no submissions can be deleted.', confirmDeletePub, null, null, null, 'danger')
 }
 
 async function confirmDeletePub() {
@@ -136,6 +171,36 @@ async function confirmDeletePub() {
     }
   } catch (e: any) {
     msgBoxError('Error deleting publication: ' + e.message)
+  }
+}
+
+function duplicatePub() {
+  pubname.value = ''
+  pubdupusers.value = true
+  showdupwait.value = false
+  showDuplicateModal.value = true
+}
+
+async function okDupPub() {
+  try {
+    pubname.value = pubname.value.trim()
+    if (pubname.value.length === 0) return msgBoxOk('Please give a publication name')
+
+    showdupwait.value = true
+    const ok = await api.pubs.duplicatePub(pubid.value, pubname.value, pubdupusers.value)
+    showdupwait.value = false
+    if (ok) {
+      await pubsStore.fetch()
+      nextTick(() => {
+        showDuplicateModal.value = false
+        msgBoxOk('Publication duplicated')
+      })
+    } else {
+      msgBoxFail('Duplicate went wrong')
+    }
+  } catch (e: any) {
+    showdupwait.value = false
+    msgBoxError('Error duplicating publication: ' + e.message)
   }
 }
 </script>
