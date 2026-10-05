@@ -25,7 +25,7 @@
           DELETE
         </b-button>
       </div>
-      <div class="mt-4">
+      <div id="details" class="mt-4">
         <h3>Name and description</h3>
         <p class="text-muted mb-2">Shown in the list of conferences.</p>
         <b-form-group label="Name" label-for="editname" label-cols-sm="2">

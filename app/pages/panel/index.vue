@@ -21,6 +21,9 @@
             {{ pub.description }}
           </b-col>
           <b-col v-if="pub.isowner || issuper" sm="3" class="text-end">
+            <b-button variant="outline-primary" size="sm" class="me-2" :to="'/panel/' + pub.id + '/admin-setup#details'" :data-cy="'panel-edit-' + pub.id">
+              Edit
+            </b-button>
             <b-button variant="outline-primary" size="sm" class="me-2" @click="duplicatePub(pub)" :data-cy="'panel-dup-' + pub.id">
               Duplicate
             </b-button>
