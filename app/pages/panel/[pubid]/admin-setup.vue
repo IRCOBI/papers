@@ -25,6 +25,19 @@
           DELETE
         </b-button>
       </div>
+      <div class="mt-4">
+        <h3>Name and description</h3>
+        <p class="text-muted mb-2">Shown in the list of conferences.</p>
+        <b-form-group label="Name" label-for="editname" label-cols-sm="2">
+          <b-form-input id="editname" v-model="editname" maxlength="50" data-cy="setup-editname" />
+        </b-form-group>
+        <b-form-group label="Description" label-for="editdescription" label-cols-sm="2">
+          <b-form-textarea id="editdescription" v-model="editdescription" rows="2" data-cy="setup-editdescription" />
+        </b-form-group>
+        <b-button variant="primary" @click="saveDetails" :disabled="savingdetails" data-cy="setup-savedetails">
+          {{ savingdetails ? 'Saving…' : 'Save' }}
+        </b-button>
+      </div>
     </div>
 
     <b-modal v-model="showDuplicateModal" id="bv-modal-dup-pub" title="Duplicate publication" centered>
@@ -92,13 +105,43 @@ const showDuplicateModal = ref(false)
 const pubname = ref('')
 const pubdupusers = ref(true)
 const showdupwait = ref(false)
+const editname = ref('')
+const editdescription = ref('')
+const savingdetails = ref(false)
 
 onMounted(async () => { // Client only
   error.value = ''
   message.value = ''
   await pubsStore.clearError()
   await pubsStore.fetch()
+  loadDetails()
 })
+
+function loadDetails() {
+  const p = pubsStore.getPub(pubid.value)
+  if (p) {
+    editname.value = p.name
+    editdescription.value = p.description
+  }
+}
+
+async function saveDetails() {
+  try {
+    savingdetails.value = true
+    const ok = await api.pubs.editPubDetails(pubid.value, editname.value, editdescription.value)
+    savingdetails.value = false
+    if (ok) {
+      await pubsStore.fetch()
+      loadDetails()
+      msgBoxOk('Name and description saved')
+    } else {
+      msgBoxFail('Saving went wrong')
+    }
+  } catch (e: any) {
+    savingdetails.value = false
+    msgBoxError('Error saving: ' + e.message)
+  }
+}
 
 const pub = computed(() => {
   const pub = pubsStore.getPub(pubid.value)

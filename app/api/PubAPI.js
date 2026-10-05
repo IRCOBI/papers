@@ -47,6 +47,15 @@ export default class PubAPI extends BaseAPI {
     return ok
   }
 
+  async editPubDetails(pubid, editname, editdescription) {
+    const data = {
+      editname,
+      editdescription
+    }
+    const { ok } = await this.$post('/pubs/' + pubid, data)
+    return ok
+  }
+
   async duplicatePub(pubid, pubname, pubdupusers) {
     const data = {
       pubname,
