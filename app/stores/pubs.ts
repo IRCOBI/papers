@@ -9,13 +9,15 @@ export const usePubsStore = defineStore('pubs', {
   },
   state: () => ({
     pubs: {},
+    mailproblem: null as null | { problem: string, since: string },
     error: false
   }),
   actions: {
     async fetch() {
       try {
         this.error = false
-        const { pubs } = await api.pubs.fetch({})
+        const { pubs, mailproblem } = await api.pubs.fetch({})
+        this.mailproblem = mailproblem || null
         for (const pub of pubs) { // Add working variables here (so they are reactive)
           pub.owner = Boolean(_.find(pub.myroles, (mr: any) => { return mr.isowner }))
           pub.notowner = pub.owner ? false : (pub.myroles.length > 0)
@@ -39,6 +41,7 @@ export const usePubsStore = defineStore('pubs', {
     clearAll() {
       this.error = false
       this.pubs = {}
+      this.mailproblem = null
     }
   },
   getters: {

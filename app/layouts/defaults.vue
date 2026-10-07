@@ -38,6 +38,11 @@
       </div>
     </div>
     <div class="container">
+      <b-alert v-if="loggedin && mailproblem" variant="danger" :modelValue="true" class="mt-2" data-cy="layout-mailproblem">
+        <strong>Emails are not being sent.</strong> {{ mailproblem.problem }}
+        (since {{ new Date(mailproblem.since).toLocaleString() }}).
+        Authors, reviewers and the secretariat copy are not receiving notifications - please contact your system administrator.
+      </b-alert>
       <b-alert variant="warning" :modelValue="getlayoutmessage.length > 0" class="mt-2">
         {{ getlayoutmessage }}
       </b-alert>
@@ -74,6 +79,10 @@ const getlayoutmessage = computed(() => {
 const loggedin = computed(() => {
   return authStore.loggedin
 })
+const mailproblem = computed(() => {
+  return pubsStore.mailproblem
+})
+
 const issuper = computed(() => {
   return authStore.super
 })
